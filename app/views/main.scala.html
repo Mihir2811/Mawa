@@ -1,0 +1,30 @@
+@* app/views/main.scala.html
+ *
+ * Shared page shell (head/nav/footer) so the other templates don't have to
+ * repeat the boilerplate. Nothing fancy - this is a course project, not a
+ * design portfolio piece.
+ *
+ * @author MAWA Team
+ *@
+@(title: String)(content: Html)
+
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <title>@title - MAWA</title>
+        <link rel="stylesheet" media="screen" href="@routes.Assets.versioned("stylesheets/main.css")">
+    </head>
+    <body>
+        <header class="site-header">
+            <a class="brand" href="@routes.MastodonController.index()">MAWA</a>
+            <span class="tagline">Mastodon Analysis Web App</span>
+        </header>
+        <main>
+            @content
+        </main>
+        <footer class="site-footer">
+            <p>SOEN 6481 - Project Delivery 1</p>
+        </footer>
+    </body>
+</html>

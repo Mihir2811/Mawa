@@ -1,0 +1,13 @@
+target/
+project/target/
+project/project/
+*.class
+*.log
+.idea/
+.vscode/
+*.iml
+.bsp/
+RUNNING_PID
+
+# Never commit real credentials - see conf/application.conf, section 3 of the assignment.
+.env

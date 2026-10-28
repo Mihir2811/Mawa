@@ -1,0 +1,17 @@
+@* app/views/error.scala.html
+ *
+ * Generic friendly error page - used for every failure mode the controller
+ * catches, so the user always sees a plain-English message instead of a
+ * stack trace (assignment 5.2).
+ *
+ * @author MAWA Team
+ *@
+@(title: String, message: String, request: play.mvc.Http.Request)
+
+@main(title) {
+    <section class="error-panel">
+        <h1>@title</h1>
+        <p>@message</p>
+        <a class="back-link" href="@routes.MastodonController.index()">&larr; Back to search</a>
+    </section>
+}

@@ -1,0 +1,64 @@
+@* app/views/results.scala.html
+ *
+ * Search results page: aggregate statistics at the top (assignment 4.3
+ * "Statistical Analysis"), then each retrieved post with its sentiment
+ * emoticon (assignment 4.3 "Sentiment analysis" + 4.2 "Display Retrieved
+ * Posts"), then a "Load More" link for pagination (assignment 5.1).
+ *
+ * @author MAWA Team
+ *@
+@(result: models.SearchResult, request: play.mvc.Http.Request)
+
+@import java.time.format.DateTimeFormatter
+@import java.time.ZoneOffset
+
+@formatted(instant: java.time.Instant) = @{
+    if (instant == null) "unknown date"
+    else DateTimeFormatter.ofPattern("MMM d, yyyy HH:mm 'UTC'").withZone(ZoneOffset.UTC).format(instant)
+}
+
+@main(s"Results for #${result.getHashtag}") {
+    <section class="results-header">
+        <h1>Results for #@result.getHashtag</h1>
+
+        <div class="stats-bar">
+            <div class="stat"><span class="stat-value">@result.getStatistics.getTotalPosts</span><span class="stat-label">total posts</span></div>
+            <div class="stat stat-positive"><span class="stat-value">@result.getStatistics.getPositivePosts</span><span class="stat-label">positive :-)</span></div>
+            <div class="stat stat-negative"><span class="stat-value">@result.getStatistics.getNegativePosts</span><span class="stat-label">negative :-(</span></div>
+            <div class="stat stat-neutral"><span class="stat-value">@result.getStatistics.getNeutralPosts</span><span class="stat-label">neutral :-|</span></div>
+        </div>
+
+        <a class="back-link" href="@routes.MastodonController.index()">&larr; New search</a>
+    </section>
+
+    @if(result.getPosts.isEmpty) {
+        <p class="empty-state">No posts were found for <strong>#@result.getHashtag</strong>. Try a different hashtag.</p>
+    } else {
+        <ul class="post-list">
+        @for(post <- result.getPosts) {
+            <li class="post-card">
+                <div class="post-meta">
+                    <span class="post-sentiment" title="@post.getSentiment">@post.getSentiment.getSymbol</span>
+                    <span class="post-author">@post.getAuthorDisplayName <span class="post-handle">@@@post.getAuthorHandle</span></span>
+                    <span class="post-date">@formatted(post.getCreatedAt)</span>
+                    @if(post.getLanguage != null) { <span class="post-lang">[@post.getLanguage]</span> }
+                    @if(post.getVisibility != null) { <span class="post-visibility">@post.getVisibility</span> }
+                </div>
+                <p class="post-content">@post.getContent</p>
+                @if(post.getUrl != null) {
+                    <a class="post-link" href="@post.getUrl" target="_blank" rel="noopener noreferrer">View original post &rarr;</a>
+                }
+            </li>
+        }
+        </ul>
+    }
+
+    @if(result.hasMore) {
+        <div class="pagination">
+            <a class="load-more"
+               href="@routes.MastodonController.search(result.getHashtag, java.util.Optional.of(result.getNextMaxId.get))">
+                Load more
+            </a>
+        </div>
+    }
+}

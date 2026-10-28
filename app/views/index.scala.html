@@ -1,0 +1,23 @@
+@* app/views/index.scala.html
+ *
+ * The home page - just the hashtag search form (assignment 4.1).
+ *
+ * @author MAWA Team
+ *@
+@(request: play.mvc.Http.Request)
+
+@main("Search") {
+    <section class="search-panel">
+        <h1>Search Mastodon by hashtag</h1>
+        <p>Enter a hashtag <strong>without</strong> the <code>#</code> character.</p>
+
+        @* Plain GET form submission - the browser appends ?hashtag=... itself,
+           so we don't need (and can't cleanly build) a reverse-routed URL
+           with an empty hashtag here. *@
+        <form action="/search" method="GET" class="search-form">
+            <label for="hashtag">Hashtag</label>
+            <input id="hashtag" name="hashtag" type="text" placeholder="java" required>
+            <button type="submit">Search</button>
+        </form>
+    </section>
+}
