@@ -36,6 +36,11 @@ sbt test      # run the unit test suite (JUnit 5 + Mockito)
 sbt jacoco    # generate the branch coverage report (target/scala-2.13/jacoco/report/html/index.html)
 sbt javadoc   # generate Javadoc (target/scala-2.13/api/)
 sbt clean     # wipe build artifacts
+
+Terminal command to run code with just sbt.exe
+
+PS C:\Users\p_mihirv\Downloads\mawa\mawa> & "C:\Users\p_mihirv\Downloads\sbt-2.0.12\sbt\bin\sbt.bat" --client=false
+
 ```
 
 ## 2. Configuring the Mastodon instance
